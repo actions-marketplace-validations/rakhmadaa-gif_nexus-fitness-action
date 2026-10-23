@@ -1,0 +1,26 @@
+name: Self-test
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fitness-selftest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Nexus Dependency Fitness (self-scan)
+        uses: ./
+        with:
+          client-id: ${{ secrets.NEXUS_TEST_CLIENT_ID }}
+          fail-on: never
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: nexus-fitness.sarif
