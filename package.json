@@ -1,0 +1,24 @@
+{
+  "name": "nexus-fitness-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nexus Dependency Fitness — GitHub Action for factual dependency fitness attestation (GHSA/CVE, SPDX license risk, SBOM, EIP-712 signed proofs).",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "ncc build dist-tsc/index.js -o dist --target es2022",
+    "all": "npm run build && npm run bundle"
+  },
+  "dependencies": {
+    "@actions/cache": "^4.0.3",
+    "@actions/core": "^1.11.1",
+    "nexus-gateway-sdk": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vercel/ncc": "^0.38.3",
+    "typescript": "^5.9.3"
+  },
+  "license": "MIT",
+  "author": "Nexus.Legal.ContractDrafter"
+}

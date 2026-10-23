@@ -1,0 +1,59 @@
+name: 'Nexus Dependency Fitness'
+description: 'Factual dependency fitness attestation — GHSA/CVE advisories, SPDX license risk, CycloneDX SBOM, deterministic score 0-100, EIP-712 signed + Merkle-anchored public proofs. legal_weight: 0 (facts only, not legal advice).'
+author: 'Nexus.Legal.ContractDrafter'
+branding:
+  icon: 'shield'
+  color: 'purple'
+
+inputs:
+  client-id:
+    description: 'Nexus client-id (NON-secret CI identifier). Top up once from your laptop: npx nexus-gateway-sdk@2 topup --amount 5 --client-id <id> (1 USDC = 100 CRED, scan = 5 CRED/call).'
+    required: true
+  lockfile:
+    description: 'Path (or comma-separated paths) to a lockfile/manifest. Auto-detects package-lock.json, npm-shrinkwrap.json, yarn.lock, requirements.txt, Pipfile.lock, go.mod, Cargo.lock when empty.'
+    required: false
+    default: ''
+  repo:
+    description: 'owner/name used for freshness + stars metadata (defaults to the workflow repository).'
+    required: false
+    default: ${{ github.repository }}
+  max-spend:
+    description: 'Spend ceiling in USDC ($0.05 per 25-package call). Batches beyond the ceiling are skipped and reported honestly.'
+    required: false
+    default: '0.50'
+  fail-on:
+    description: 'Fail the job when advisories meet the bar: never | critical | high | low | score.'
+    required: false
+    default: 'critical'
+  fail-on-license:
+    description: 'Fail the job when any scanned runtime dependency carries a risky SPDX license (GPL/AGPL/SSPL/BUSL class).'
+    required: false
+    default: 'false'
+  include-dev:
+    description: 'Include dev-only dependencies in the scan (lockfile formats that track dev flags).'
+    required: false
+    default: 'false'
+  skip-badge:
+    description: 'Skip the dynamic README badge suggestion (badge endpoint requires gateway v5.18.0+).'
+    required: false
+    default: 'false'
+
+outputs:
+  score:
+    description: 'Worst-case deterministic fitness score 0-100 across scanned batches.'
+  critical-count:
+    description: 'Number of critical advisories.'
+  high-count:
+    description: 'Number of high advisories.'
+  total-advisories:
+    description: 'Total advisories found.'
+  attestation-urls:
+    description: 'Newline-separated public zero-trust proof URLs (one per batch attestation).'
+  sarif-path:
+    description: 'Path to the generated SARIF file for github/codeql-action/upload-sarif.'
+  cache-hit:
+    description: '"true" when results came from the 6-hour local cache.'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
