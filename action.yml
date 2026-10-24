@@ -1,5 +1,5 @@
 name: 'Nexus Dependency Fitness'
-description: 'Factual dependency fitness attestation — GHSA/CVE advisories, SPDX license risk, CycloneDX SBOM, deterministic score 0-100, EIP-712 signed + Merkle-anchored public proofs. legal_weight: 0 (facts only, not legal advice).'
+description: 'Factual dependency fitness attestation: GHSA/CVE advisories, SPDX license risk, SBOM, signed public proof.'
 author: 'Nexus.Legal.ContractDrafter'
 branding:
   icon: 'shield'
