@@ -4,6 +4,8 @@
 
 > **legal_weight: 0** — this action reports verifiable facts only. It is not legal advice and makes no legal claims.
 
+> **Listed on [x402-list](https://x402-list.com/services/nexus-fitness-attestation)** — public x402 service directory (Nexus Fitness Attestation).
+
 ## Why
 
 Standard dependency scanners drown you in alerts — most of which are unreachable in your code path. Nexus reports a **signed, independently verifiable** factual snapshot instead:
