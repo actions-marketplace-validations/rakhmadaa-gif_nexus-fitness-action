@@ -1,6 +1,6 @@
 # 🛡️ Nexus Dependency Fitness
 
-**Factual dependency fitness attestation for your CI** — GHSA/CVE advisories (OSV), SPDX license risk, freshness, CycloneDX SBOM, and a deterministic 0–100 score, delivered as an **EIP-712 signed attestation with Merkle-anchored public proofs**.
+**Factual dependency fitness attestation for your CI** — GHSA/CVE advisories (OSV), SPDX license risk, freshness, CycloneDX SBOM, and a deterministic 0–100 score, delivered as an **EIP-712 signed attestation with batched for Merkle anchoring public proofs**.p
 
 > **legal_weight: 0** — this action reports verifiable facts only. It is not legal advice and makes no legal claims.
 
@@ -11,7 +11,7 @@
 Standard dependency scanners drown you in alerts — most of which are unreachable in your code path. Nexus reports a **signed, independently verifiable** factual snapshot instead:
 
 - ✅ **Deterministic score 0–100** — fixed formula (`100 − 25·critical − 15·high − 15·license_risk − 10·stale`), worst-case across batches. Same input → same score, every time.
-- ✅ **Signed attestation** — EIP-712 signature by ERC-8004 agent **#636**, Merkle-anchored on Polygon. Anyone can verify without an account: `curl "<proof-url>"`.
+- ✅ **Signed attestation** — EIP-712 signature by ERC-8004 agent **#636**, batched for Merkle anchoring on Polygon. Anyone can verify without an account: `curl "<proof-url>"`.
 - ✅ **SBOM included** — CycloneDX 1.5 on every run (EU CRA / US EO 14028 friendly).
 - ✅ **Cheap & machine-native** — $0.05 per 25-package call, paid via prepaid credits (x402/USDC). No accounts, no seats, no sales calls.
 - ✅ **SARIF output** — results land in your repo's **Security tab** via `upload-sarif`.
@@ -92,13 +92,12 @@ Dev-only dependencies are excluded by default (`include-dev: true` to include). 
 
 ## Verifying a proof (zero-trust)
 
-Every run emits public proof URLs. No account, no login — the proof package contains the EIP-712 signature, Merkle proof, and on-chain anchor transaction:
-
+Every run emits public proof URLs. No account, no login  -  the proof package contains the EIP-712 signature and Merkle proof batched for on-chain anchoring:
 ```bash
 curl -s "https://nexus-m2m-gateway.rakhadadaa.workers.dev/attestations/proof?hash=<struct_hash>" | jq
 ```
 
-Verification chain: recover the signer from the EIP-712 signature → signer must own ERC-8004 identity **#636** on Polygon → the attestation's hash must be included in the Merkle root anchored on-chain. Full verifier script: [`nexus-gateway-sdk`](https://www.npmjs.com/package/nexus-gateway-sdk) → `verify` command.
+Verification chain: recover the signer from the EIP-712 signature → signer must own ERC-8004 identity **#636** on Polygon → the attestation's hash is batched for inclusion in the Merkle root to be anchored on-chain. Full verifier script: [`nexus-gateway-sdk`](https://www.npmjs.com/package/nexus-gateway-sdk) → `verify` command.
 
 ## Pricing
 
